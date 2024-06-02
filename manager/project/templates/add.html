@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form method="post">
+      {% csrf_token %}
+      {% for elem in form %}
+      <br>
+      {% if elem.name == 'submited_by' %}
+      {% elif elem.name == 'deadline' %}
+       {{elem.name.capitalize}}  <input type="date" name="{{elem.name}}"><br>
+       {% elif elem.name == 'user' %}
+        <input type="hidden" name="user" value="user">
+        {% elif elem.name == 'task_status' %}
+        
+      {% elif elem.field.widget.input_type == 'select' %}
+      {{ elem.name.capitalize }} <select name="{{elem.name}}_select">
+     {% for choice in elem.field.choices %}
+       <option value="{{ choice.0 }}" {% if choice.0 == elem.value %}selected{% endif %}>
+         {{ choice.1 }}
+       </option>
+     {% endfor %}
+      </select><br>
+
+      {% else %}
+      {{elem.name.capitalize}} {{elem}}
+      {% endif %}
+      {% endfor %}
+      <input type="submit" value="Add">
+    </form>
+  </body>
+</html>
